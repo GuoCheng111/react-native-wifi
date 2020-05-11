@@ -299,13 +299,20 @@ public class RNWifiModule extends ReactContextBaseJavaModule {
 	public void getCurrentWifiSSID(final Promise promise) {
 		WifiInfo info = wifi.getConnectionInfo();
 
+		WritableMap ret = Arguments.createMap();
+
 		// This value should be wrapped in double quotes, so we need to unwrap it.
 		String ssid = info.getSSID();
 		if (ssid.startsWith("\"") && ssid.endsWith("\"")) {
 			ssid = ssid.substring(1, ssid.length() - 1);
 		}
+		int linkSpeed = wifi.getConnectionInfo().getRssi();
 
-		promise.resolve(ssid);
+		//设备型号
+		ret.putString("ssid", ssid);
+		ret.putInt("linkSpeed", linkSpeed);
+
+		promise.resolve(ret);
 	}
 
 	//This method will return the basic service set identifier (BSSID) of the current access point
