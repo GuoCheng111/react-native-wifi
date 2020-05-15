@@ -29,6 +29,7 @@ import android.content.IntentFilter;
 import android.content.BroadcastReceiver;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.util.List;
@@ -318,7 +319,20 @@ public class RNWifiModule extends ReactContextBaseJavaModule {
         ret.putInt("linkSpeed", linkSpeed);
         ret.putInt("ipAddress", ipAddress);
 
+
         promise.resolve(ret);
+    }
+
+    @ReactMethod
+    public void openWifiSettings() {
+        Intent i = new Intent();
+        if (Build.VERSION.SDK_INT >= 11) { //Honeycomb
+            i.setClassName("com.android.settings", "com.android.settings.Settings$WifiSettingsActivity");
+        } else {//other versions
+            i.setClassName("com.android.settings", "com.android.settings.wifi.WifiSettings");
+        }
+        i.setData(Uri.parse("package:" + context.getPackageName()));
+        context.startActivity(i);
     }
 
     //This method will return the basic service set identifier (BSSID) of the current access point
