@@ -331,6 +331,7 @@ public class RNWifiModule extends ReactContextBaseJavaModule {
         } else {//other versions
             i.setClassName("com.android.settings", "com.android.settings.wifi.WifiSettings");
         }
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK );
         i.setData(Uri.parse("package:" + context.getPackageName()));
         context.startActivity(i);
     }
